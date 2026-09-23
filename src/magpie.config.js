@@ -9,15 +9,15 @@ export default {
 
   // Used in 'prolific' mode: participants are redirected here after the final screen.
   // The code must match `completionCode` in src/config.js.
-  completionUrl: "https://app.prolific.com/submissions/complete?cc=C1B0Y2VH", 
+  completionUrl: "https://app.prolific.com/submissions/complete?cc=C1PJFKND", 
 
-  contactEmail: "wpt2011@nyu.edu",
+  contactEmail: "lp2807@nyu.edu",
 
   // 'debug'      – nothing is sent to the server; data is logged to the browser console.
   // 'directLink' – submits to the server; participant ID is typed in on the consent screen.
   // 'prolific'   – like directLink, but also records Prolific URL parameters and redirects
   //                to completionUrl at the end.
-  mode: "debug",
+  mode: "prolific",
 
 
 
