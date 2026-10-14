@@ -863,7 +863,7 @@ button {
  * Small/shrunken spotlight when no word is directly under it.
  */
 .oval-cursor.grow.blank {
-  width: 5em;
+  width: 5.667em;
   height: 10em;
 }
 
@@ -871,7 +871,7 @@ button {
  * Normal spotlight.
  */
 .oval-cursor.grow {
-  width: 5em;
+  width: 5.667em;
   height: 10em;
 
   border-radius: 50%;
