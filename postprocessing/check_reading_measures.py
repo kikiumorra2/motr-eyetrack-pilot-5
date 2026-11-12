@@ -137,7 +137,36 @@ def compare_with_reference(measures, assoc):
     m["para_nr"] = m["para_nr"].astype(str)
     m["word_nr"] = pd.to_numeric(m["word_nr"]).astype(int)
     key = ["sbm_id", "para_nr", "word_nr"]
-    joined = m[key + MEASURES].merge(ref, on=key, how="outer", suffixes=("", "_ref"), indicator=True)
+    joined = m[key + MEASURES].merge(
+        ref,
+        on=key,
+        how="outer",
+        suffixes=("", "_ref"),
+        indicator=True
+    )
+
+    print("\nMERGE DIAGNOSTICS:")
+    print(joined["_merge"].value_counts())
+      
+
+    miss
+    
+    print("\nMERGE DIAGNOSTICS:")
+    print(joined["_merge"].value_counts())
+   
+    missing = joined[joined["_merge"] == "right_only"]
+   
+    print("\nWORDS IN ASSOCIATIONS BUT NOT IN READING MEASURES:")
+    print(missing[key].head(30).to_string(index=False))
+   
+    print("\nMISSING WORDS BY TRIAL:")
+    print(
+        missing.groupby(["sbm_id", "para_nr"])
+        .size()
+        .to_string()
+    )
+
+   
     # words without an association are absent from ref: the pipeline must have zeros there
     only_m = joined["_merge"] == "left_only"
     for c in MEASURES:
