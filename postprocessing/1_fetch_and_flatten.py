@@ -214,12 +214,59 @@ def participants_table(df):
 
 def items_table(materials_dir):
     frames = []
-    for name in ("items.csv", "fillers.csv", "practice.csv"):
-        path = materials_dir / name
+
+    # Experimental lists are the source of the actual critical stimuli.
+    list_paths = sorted(
+        (materials_dir / "lists").glob("list_*.csv")
+    )
+
+    # Fall back to items.csv only when no lists exist.
+    critical_paths = (
+        list_paths if list_paths
+        else [materials_dir / "items.csv"]
+    )
+
+    paths = critical_paths + [
+        materials_dir / "fillers.csv",
+        materials_dir / "practice.csv",
+    ]
+
+    for path in paths:
         if path.exists():
-            frames.append(pd.read_csv(path, dtype=str))
+            df = pd.read_csv(path, dtype=str)
+
+            frames.append(
+                df[["item_id", "condition_id", "text"]]
+            )
+
+    if not frames:
+        raise FileNotFoundError("No materials CSV files found")
+
     items = pd.concat(frames, ignore_index=True)
-    items["item_id"] = items["item_id"].str.strip() + "_" + items["condition_id"].str.strip()
+
+    for col in ["item_id", "condition_id", "text"]:
+        items[col] = items[col].str.strip()
+
+    # Ensure each item-condition pair has only one sentence.
+    conflicts = (
+        items.groupby(["item_id", "condition_id"])["text"]
+        .nunique()
+    )
+
+    if (conflicts > 1).any():
+        raise ValueError(
+            "Conflicting sentences for item-condition pairs: "
+            f"{list(conflicts[conflicts > 1].index)}"
+        )
+
+    items = items.drop_duplicates(
+        subset=["item_id", "condition_id"]
+    ).copy()
+
+    items["item_id"] = (
+        items["item_id"] + "_" + items["condition_id"]
+    )
+
     return items[["item_id", "condition_id", "text"]]
 
 
