@@ -66,6 +66,7 @@ export default {
 
   // Settings for the character-event recorder ("events" / "both").
   charEvents: {
+    hitTestMode: "x",
     recordRawTrace: true,   // also keep every pointer sample (x, y, t), delta-coded (~3 bytes each)
     tracePrecisionPx: 1,    // raw-trace coordinate precision in CSS px
     maxEvents: 20000,       // per trial; further character changes are dropped (mtStats.trunc/drop)
