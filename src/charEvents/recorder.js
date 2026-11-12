@@ -23,6 +23,7 @@ export const DEFAULTS = {
 export class CharEventRecorder {
   constructor(options = {}) {
     const o = { ...DEFAULTS, ...options };
+    this.hitTestMode = o.hitTestMode || "xy";
     this.maxEvents = o.maxEvents;
     this.maxTraceSamples = o.maxTraceSamples;
     this.recordRawTrace = !!o.recordRawTrace;
@@ -135,7 +136,9 @@ export class CharEventRecorder {
       }
     }
     //const state = hitState(this.index, this.offsets, x, y);
-    const state = hitStateX(this.index, this.offsets, x);
+    const state = this.hitTestMode === "x"
+         ? hitStateX(this.index, this.offsets, x)
+         : hitState(this.index, this.offsets, x, y);
     this.lastPoint = { x, y };
     this._setState(T, state);
     return state;
@@ -155,7 +158,15 @@ export class CharEventRecorder {
     const T = this._T(t);
     const id = this._addSnapshot(T, table);
     this._emit(T, "l", id);
-    if (this.lastPoint) this._setState(T, hitStateX(this.index, this.offsets, this.lastPoint.x));
+    if (this.lastPoint) {
+        const { x, y } = this.lastPoint;
+
+        const state = this.hitTestMode === "x"
+            ? hitStateX(this.index, this.offsets, x)
+            : hitState(this.index, this.offsets, x, y);
+
+        this._setState(T, state);
+    }
     return true;
   }
 
