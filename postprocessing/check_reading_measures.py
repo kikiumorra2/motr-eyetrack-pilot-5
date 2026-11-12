@@ -144,13 +144,7 @@ def compare_with_reference(measures, assoc):
         suffixes=("", "_ref"),
         indicator=True
     )
-
-    print("\nMERGE DIAGNOSTICS:")
-    print(joined["_merge"].value_counts())
-      
-
-    miss
-    
+   
     print("\nMERGE DIAGNOSTICS:")
     print(joined["_merge"].value_counts())
    
