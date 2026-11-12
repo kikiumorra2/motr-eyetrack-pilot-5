@@ -100,7 +100,7 @@ export function chooseListId() {
   }
   
   if (config.defaultList === "random") return _.sample(listIds);
-  const defautlId = String(config.defaultList);
+  const defaultId = String(config.defaultList);
   
   return listIds.includes(defaultId) ? defaultId : listIds[0];
 }
