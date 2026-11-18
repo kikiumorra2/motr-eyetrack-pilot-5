@@ -500,7 +500,7 @@ export default {
     console.log(`[MoTR] sentence font size: ${sentenceFontSize}px`);
     
     console.log(`[MoTR] list ${listId}: ${practiceTrials.length} practice + ${mainTrials.length} main trials`, mainTrials);
-    return { config, listId, practiceTrials, mainTrials, sentenceFontSize, longestSentence, motrDemo, submitting: false };
+    return { config, listId, practiceTrials, mainTrials, sentenceFontSize, longestSentence, motrDemo, submitting: false, consentAgreed: false };
   },
   created() {
     // magpie replaces the socket with a stub that raises a "no socket URL is set" warning
